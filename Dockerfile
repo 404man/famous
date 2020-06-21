@@ -8,6 +8,12 @@ RUN pip install -r requirements.txt
 
 ### Final image
 FROM python:3.8-slim
+
+# biuld evn variable
+ARG STATIC_URL
+#dynamic ENV Values from ARG
+ENV STATIC_URL ${STATIC_URL:-/static/}
+
 RUN groupadd -r famous && useradd -r -g famous famous
 
 RUN apt-get update \
@@ -27,6 +33,12 @@ COPY . /app
 COPY --from=build-python /usr/local/lib/python3.8/site-packages/ /usr/local/lib/python3.8/site-packages/
 COPY --from=build-python /usr/local/bin/ /usr/local/bin/
 WORKDIR /app
- 
+#RUN SECRET_KEY=dummy STATIC_URL=${STATIC_URL} python3 manage.py collectstatic --no-input
+RUN STATIC_URL=${STATIC_URL} python3 manage.py collectstatic --no-input
+RUN mkdir -p /app/media /app/static \
+  && chown -R famous:famous /app/
+
+EXPOSE 8000
+ENV PORT 8000
 ENV PYTHONUNBUFFERED 1
-# CMD ["uwsgi", "--ini", "/app/famous/wsgi/uwsgi.ini"]
+CMD ["uwsgi", "--ini", "/app/famous/wsgi/uwsgi.ini"]
