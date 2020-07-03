@@ -1,3 +1,8 @@
 django==3.0.7
 psycopg2-binary==2.8.5
 uwsgi==2.0.19.1; sys_platform != "win32"
+graphene==3.0b2
+graphene-django==3.0b3
+graphene-federation==0.1.0
+graphql-core>=3
+graphql-relay==3.0.0

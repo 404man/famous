@@ -26,7 +26,7 @@ SECRET_KEY = '#s&+_se5mla*5%a4hy2r0d7$97+_*+%qv+)he$+oyu95n+%nde'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'polls.apps.PollsConfig',
+    'graphene_django',
 ]
 
 MIDDLEWARE = [
@@ -131,3 +132,21 @@ MEDIA_URL = os.environ.get("MEDIA_URL", "/media/")
 STATIC_ROOT = os.path.join(PROJECT_ROOT, "static")
 STATIC_URL = os.environ.get("STATIC_URL", "/static/")
 # STATIC_URL = '/static/'
+
+# GRAPHENE = {
+#     'SCHEMA': 'app.schema.schema' # Where your Graphene schema lives
+
+#     "SCHEMA_INDENT": 2,
+#     "MIDDLEWARE": ("graphene_django.debug.DjangoDebugMiddleware",),
+# }
+
+GRAPHENE = {
+    "RELAY_CONNECTION_ENFORCE_FIRST_OR_LAST": True,
+    "RELAY_CONNECTION_MAX_LIMIT": 100,
+    "MIDDLEWARE": [
+        "graphene_django.debug.DjangoDebugMiddleware",
+        # "famous.graphql.middleware.OpentracingGrapheneMiddleware",
+        # "famous.graphql.middleware.JWTMiddleware",
+        # "famous.graphql.middleware.app_middleware",
+    ],
+}
