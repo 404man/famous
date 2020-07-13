@@ -79,3 +79,9 @@ query = '''
 '''
 result = schema.execute(query)
 ```
+
+##  文件目录 结构
+
+* 各种 models 建在  famous 内， 然后再加一个graphql 目录
+* graphql 里建 views.py(提供处理方法, urls.py 用到) 和 api.py (总的schema入口文件
+, urls.py 会用到)
